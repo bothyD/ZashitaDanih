@@ -1,13 +1,14 @@
 import random
 import math
-import numpy
+import numpy 
 ### y = a^x mod p.
 
 def fastMulty(a, x, p):
     y = 1
     s = a
-    for i in range(len(x)):
-        if x[i]==1:
+    masBin = binNum(x)
+    for i in range(len(masBin)):
+        if masBin[i]==1:
             y = y *s%p
         s = s * s%p
     return y
@@ -27,6 +28,8 @@ def GenEvklid(a,b):
         T = [ U[0] % V[0], U[1] - q*V[1], U[2] - q*V[2] ] 
         U = V
         V = T
+        print("U = ",U,"\n","V = ", V,"\n")
+    
     return U 
 
 
@@ -37,7 +40,6 @@ def binNum(x):
         last_bit = x & 1
         mas.append(last_bit)
         x = x >> 1
-    print()
     return mas
 
 def is_prime(p):
@@ -49,28 +51,50 @@ def is_prime(p):
             return False
     return True
 
-def find_duplicate_elements(array1, array2):
+def generate_q_p():
+    go = True
+    while go:
+        q = random.randint(10**3, 10**4)
+        while not is_prime(q):
+            q = random.randint(10**6, 10**9)
+        p = 2*q + 1
+        if is_prime(p):
+            go = False
+    print("q = ",q, "; p = ",p)
+    return q, p
+
+def generate_m_k(p):
+    m  = int(math.sqrt(p)) 
+    k= m
+    while k*m<p:
+        m+=1
+    return m, k
+
+
+def find_duplicate_elements(array1, array2,a, p,y,m):
     for element1 in array1:
         for element2 in array2:
             if element1 == element2:
                 i = array1.index(element1)
                 j = array2.index(element2)
-                return i, j  # Возвращаем первый найденный одинаковый элемент
+                x1 = (a**(i*m))%p
+                x2 = ((a**j)*y)%p
+                if x1 == x2:
+                    return i, j  # Возвращаем первый найденный одинаковый элемент
     return None 
 
 def main():
     ######################################################
     #                     1 часть                        #   
     ######################################################
-    # print("Input a, x, p:\na:", end="")
-    # a = int(input())
-    # print("x: ", end="")
-    # x = int(input())
-    # print("p: ", end="")
-    # p = int(input())
-    # masBin = binNum(x)
-    # res = fastMulty(a, masBin, p)
-    # print(res)
+    print("Input a, x, p:\na:", end="")
+    a = int(input())
+    print("x: ", end="")
+    x = int(input())
+    print("p: ", end="")
+    p = int(input())
+    res = fastMulty(a, x, p)
+    print(res)
     ######################################################
     #                     2 часть                        #
     # ######################################################    
@@ -85,65 +109,59 @@ def main():
     ######################################################
     #                     3 часть                        #
     ###################################################### 
-    # q = 0
-    # p = 0
-    # go = True
-    # while go:
-    #     q = random.randint(10**2, 10**4)
-    #     while not is_prime(q):
-    #         q = random.randint(10**6, 10**9)
-    #     p = 2*q + 1
-    #     if is_prime(p):
-    #         go = False
-    # print(q, p)
-
-    # i = 2
-    # masBin = binNum(q)
-    # while i != p-2:
-    #     g = fastMulty(i, masBin, p)
-    #     if g != 1:
+    # q,p = generate_q_p()
+    # g = 2
+    # while g != p-2:
+    #     x = fastMulty(g, q, p)
+    #     if x == 1:
+    #         g+=1
+    #     else:
     #         break
-    #     i+=1
-    # print(g)
-    # xA= 131
-    # xB= 111
-    # masBinA = binNum(xA)
-    # masBinB = binNum(xB)
-    # yA = fastMulty(g, masBinA, p)
-    # yB = fastMulty(g, masBinB, p)
-    # print("yA = ", yA, " yB = ",yB)
-
-    # Zab = fastMulty(yB, masBinA, p)
-    # Zba = fastMulty(yA, masBinB, p)
-    # print("Zab = ", Zab, " Zba = ",Zba)
+    # print("g = ", g)
+    # xA= random.randint(10**2, 10**4)
+    # xB= random.randint(10**2, 10**4)
+    # yA = fastMulty(g, xA, p)
+    # yB = fastMulty(g, xB, p)
+    # print("yA = ", g, "^", xA," mod ", p," = ", yA)
+    # print("yB = ", g, "^", xB," mod ", p," = ", yB)
+    # Zab = fastMulty(yB, xA, p)
+    # Zba = fastMulty(yA, xB, p)
+    # print("Zab = ", yB, "^", xA," mod ", p," = ", Zab)
+    # print("Zba = ", yA, "^", xB," mod ", p," = ", Zba)
+    # print("Zab = Zba = ",Zba)
     ######################################################
     #                     4 часть                        #
     ###################################################### 
-    #y = a^x mod p
+    # y = a^x mod p
     y =  9
     a = 2
-    p =23
-    pSqr = int(p**(-2))
-
-    m = 6
-    k =4
-
+    p = random.randint(10**1, 10**2)
+    while not is_prime(p):
+        p = random.randint(10**1, 10**2)
+    
+    m, k = generate_m_k(p)
+    
+    print("p = ", p, "; m = ", m, "; k = ", k)
     massM=[]
     massK=[]
     for i in range(0, m):
-        resF = (a**i)*y % p
+        resF = (a**i) % p
         massM.append(resF)
     for j in range(1, k+1):
         resS = a**(j*m) % p
         massK.append(resS)
     print(massM)
-    print(massK)
+    print(massK,"\n")
 
-    i,j = find_duplicate_elements(massM, massK)
-    print(i,j)
-    print((a**(i*m))%p, " ", ((a**(j+1))*y)%p)
+    i,j = find_duplicate_elements(massM, massK ,a, p,y,m)
+    print("i = ",i,"; j = ",j, "\n")
 
-    print("x = ", i*m - j)
+    print("a^(i*m) = a^j * y\n")
+    print(a, "^(", i, "*", m, ") = ",  (a**(i*m))%p) 
+    print(a, "^", j, " * ", y," = ", ((a**j)*y)%p)
+
+    print("\nx = i*m-j = ", i,"*",m, "-", j, " = ", i*m-j)
+ 
  
 if __name__ == "__main__":
     main()
