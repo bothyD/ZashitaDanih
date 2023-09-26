@@ -1,6 +1,6 @@
 import random
-from fast_mult import fastMulty
-from is_prime import is_prime
+from other.fast_mult import fastMulty
+from other.is_prime import is_prime
 
 def generate_q_p():
     go = True

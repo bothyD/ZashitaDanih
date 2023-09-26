@@ -29,8 +29,8 @@ def bgs():
         else:
             x = "Not found"
     print("a^(i*m) = a^j * y\n")
-    print(a, "^(", i, "*", m, ") = ",  (a**(i*m))%p) 
-    print(a, "^", j, " * ", y," = ", ((a**j)*y)%p)
+    print(a, "^(", i, "*", m, ") = ",  (pow(a,(i*m)))%p) 
+    print(a, "^", j, " * ", y," = ", ((pow(a,j))*y)%p)
 
     print("\nx = i*m-j = ", i,"*",m, "-", j, " = ", i*m-j)
     print(x)
