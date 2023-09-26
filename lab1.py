@@ -77,24 +77,24 @@ def find_duplicate_elements(array1, array2,a, p,y,m):
             if element1 == element2:
                 i = array1.index(element1)
                 j = array2.index(element2)
-                x1 = (a**(i*m))%p
+                x1 = (a**(i))%p
                 x2 = ((a**j)*y)%p
-                if x1 == x2:
-                    return i, j  # Возвращаем первый найденный одинаковый элемент
+                # if x1 == x2:
+                return i, j  # Возвращаем первый найденный одинаковый элемент
     return None 
 
 def main():
     ######################################################
     #                     1 часть                        #   
     ######################################################
-    print("Input a, x, p:\na:", end="")
-    a = int(input())
-    print("x: ", end="")
-    x = int(input())
-    print("p: ", end="")
-    p = int(input())
-    res = fastMulty(a, x, p)
-    print(res)
+    # print("Input a, x, p:\na:", end="")
+    # a = int(input())
+    # print("x: ", end="")
+    # x = int(input())
+    # print("p: ", end="")
+    # p = int(input())
+    # res = fastMulty(a, x, p)
+    # print(res)
     ######################################################
     #                     2 часть                        #
     # ######################################################    
@@ -133,35 +133,61 @@ def main():
     #                     4 часть                        #
     ###################################################### 
     # y = a^x mod p
+    # y =  9
+    # a = 2
+    # p = random.randint(10**1, 10**2)
+    # while not is_prime(p):
+    #     p = random.randint(10**1, 10**2)
+    # m, k = generate_m_k(p)
+    # m  = 6
+    # k = 4
+    # p=23
+    # print("p = ", p, "; m = ", m, "; k = ", k)
+    # massM=[]
+    # massK=[]
+    # for i in range(0, m):
+    #     resF = (a**i)*y % p
+    #     massM.append(resF)
+    # for j in range(1, k+1):
+    #     resS = a**(j*m) % p
+    #     massK.append(resS)
+    # print(massM)
+    # print(massK,"\n")
+
+    # i,j = find_duplicate_elements(massM, massK ,a, p,y,m)
+    # print("i = ",i,"; j = ",j, "\n")
+
+    # print("a^(i*m) = a^j * y\n")
+    # print(a, "^(", i, "*", m, ") = ",  (a**(i*m))%p) 
+    # print(a, "^", j, " * ", y," = ", ((a**j)*y)%p)
+
+    # print("\nx = i*m-j = ", i,"*",m, "-", j, " = ", i*m-j)
+    
+
+    # y = a^x mod p
     y =  9
     a = 2
     p = random.randint(10**1, 10**2)
     while not is_prime(p):
         p = random.randint(10**1, 10**2)
-    
     m, k = generate_m_k(p)
-    
     print("p = ", p, "; m = ", m, "; k = ", k)
-    massM=[]
-    massK=[]
-    for i in range(0, m):
-        resF = (a**i) % p
-        massM.append(resF)
-    for j in range(1, k+1):
-        resS = a**(j*m) % p
-        massK.append(resS)
-    print(massM)
-    print(massK,"\n")
-
-    i,j = find_duplicate_elements(massM, massK ,a, p,y,m)
-    print("i = ",i,"; j = ",j, "\n")
-
+    baby = {fastMulty(a, j, p) * y % p: j for j in range(m)}
+    giant = [fastMulty(a, (m * i), p) for i in range(1, k + 1)]
+    print("baby - ", baby)
+    print("giant - ", giant)
+    for i, el in enumerate(giant, 1):
+        if (j := baby.get(el)) is not None:
+            x = i * m - j
+            break
+        else:
+            x = "Not found"
     print("a^(i*m) = a^j * y\n")
     print(a, "^(", i, "*", m, ") = ",  (a**(i*m))%p) 
     print(a, "^", j, " * ", y," = ", ((a**j)*y)%p)
 
     print("\nx = i*m-j = ", i,"*",m, "-", j, " = ", i*m-j)
- 
- 
+    print(x)
+
 if __name__ == "__main__":
     main()
