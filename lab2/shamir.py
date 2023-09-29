@@ -1,7 +1,6 @@
-import sys
-print(sys.path)
-sys.path.append('C:\python\ZashitaDanih\lab1')
-from lab1.main import fastMulty
+
+from main import fastMulty
+
 
 def main():
     print(fastMulty(5,20,7))
