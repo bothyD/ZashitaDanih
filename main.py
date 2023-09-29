@@ -11,5 +11,6 @@ from lab2.shamir import shamir
 def main():
     shamir()
 
+
 if __name__ =="__main__":
     main()

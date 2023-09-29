@@ -1,3 +1,5 @@
+from lab1.gen_evklid import GenEvklid
+
 def binNum(x):
     mas = []
     last_bit = 0
@@ -10,9 +12,10 @@ def binNum(x):
 def fastMulty(a, x, p):
     y = 1
     s = a
-    masBin = binNum(x)
+    masBin = binNum(abs(x))
     for i in range(len(masBin)):
         if masBin[i]==1:
             y = y *s%p
         s = s * s%p
+
     return y
