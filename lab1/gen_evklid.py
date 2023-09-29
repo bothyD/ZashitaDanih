@@ -8,6 +8,6 @@ def GenEvklid(a, b):
         T = [ U[0] % V[0], U[1] - q*V[1], U[2] - q*V[2] ] 
         U = V
         V = T
-        print("U = ",U,"\n","V = ", V,"\n")
+       # print("U = ",U,"\n","V = ", V,"\n")
     
     return U 
