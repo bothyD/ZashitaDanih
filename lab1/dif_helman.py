@@ -11,11 +11,10 @@ def generate_q_p():
         p = 2*q + 1
         if is_prime(p):
             go = False
-    print("q = ",q, "; p = ",p)
+    # print("q = ",q, "; p = ",p)
     return q, p
 
-def dif_helman():
-    q,p = generate_q_p()
+def generate_g(q, p):
     g = 2
     while g != p-2:
         x = fastMulty(g, q, p)
@@ -23,6 +22,11 @@ def dif_helman():
             g+=1
         else:
             break
+    return g
+
+def dif_helman():
+    q,p = generate_q_p()
+    g = generate_g(q, p)
     print("g = ", g)
     xA= random.randint(10**2, 10**4)
     xB= random.randint(10**2, 10**4)

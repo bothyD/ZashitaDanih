@@ -1,16 +1,9 @@
 import random
 from other.fast_mult import fastMulty
-from other.is_prime import is_prime
 from other.evklidGCD import EvklidGCD
+from other.simple_num import generate_simpleNum
 from lab1.gen_evklid import GenEvklid
 
-
-def generate_p():
-    p = random.randint(10**4, 10**5)
-    while not is_prime(p):
-        p = random.randint(10**4, 10**5)
-        
-    return p
 
 def generateC_D(p):
     while True:
@@ -26,7 +19,7 @@ def generateC_D(p):
 
 def shamir():
     m = 228
-    p = generate_p()
+    p = generate_simpleNum()
     Ca, Da = generateC_D(p)
     Cb, Db = generateC_D(p)
     print("\tp = ",p, "\nCa = ", Ca, ", Da = ", Da, "\nCb = ", Cb, ", Db = ", Db)
