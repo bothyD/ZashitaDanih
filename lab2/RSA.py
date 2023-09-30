@@ -17,7 +17,7 @@ def generateC_D(p):
     return c, d  
 
 def RSA():
-    m=228
+    m=282
     q = generate_simpleNum()
     p = generate_simpleNum()
     N= q*p
