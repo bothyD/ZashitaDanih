@@ -8,9 +8,12 @@ from lab1.gen_evklid import GenEvklid
 
 from lab2.shamir import shamir
 from lab2.el_gamal import el_gamal
+from lab2.RSA import RSA
 
 def main():
-    el_gamal()
+    # shamir()
+    # el_gamal()
+    RSA()
 
 
 if __name__ =="__main__":
