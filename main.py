@@ -8,10 +8,10 @@ from lab2.RSA import RSA
 from lab2.vernam import vernam
 
 def main():
-    # shamir()
+    shamir()
     # el_gamal()
     # RSA()
-    vernam()
+    # vernam()
 
 
 if __name__ =="__main__":

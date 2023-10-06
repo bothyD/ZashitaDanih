@@ -4,7 +4,6 @@ from other.evklidGCD import EvklidGCD
 from other.simple_num import generate_simpleNum
 from lab1.gen_evklid import GenEvklid
 
-
 def generateC_D(p):
     while True:
         c = random.randint(10**4, 10**5)
@@ -16,26 +15,50 @@ def generateC_D(p):
         c, d = generateC_D(p)
     return c, d  
 
+def split_string(string, n):
+    length = len(string)
+    part_length = length // n
+    parts = []
+    for i in range(n-1):
+        parts.append(string[i*part_length:(i+1)*part_length])
+    parts.append(string[(n-1)*part_length:])
+    return parts
 
 def shamir():
-    m = 228
+    m = 22812312101
+    mas_m = []
     p = generate_simpleNum()
     Ca, Da = generateC_D(p)
-    Cb, Db = generateC_D(p)
+    Cb, Db = generateC_D(p)    
     print("\tp = ",p, "\nCa = ", Ca, ", Da = ", Da, "\nCb = ", Cb, ", Db = ", Db)
+    kol_iter = 0
+    if m < p:
+        kol_iter = 1
+        mas_m.append(m)
+    else:
+        kol_iter = len(str(m)) // len(str(p))+1
+        mas_m = split_string(str(m), kol_iter)
 
-    #step 1
-    x1 = fastMulty(m, Ca, p)
-    print("\nx1 = ", x1)
-    #step 2
-    x2 = fastMulty(x1, Cb, p)
-    print("x2 = ", x2)
-    #step 3
-    x3 = fastMulty(x2, Da, p)
-    print("x3 = ", x3)
-    #step 4
-    x4 = fastMulty(x3, Db, p)
-    print("x4 = ", x4)
+    with open('labTxt/file_encode.txt', 'w') as f:
+        for i in range(kol_iter):
+            #step 1
+            x1 = fastMulty(int(mas_m[i]), Ca, p)
+            #step 2
+            x2 = fastMulty(x1, Cb, p)
+            #step 3
+            x3 = fastMulty(x2, Da, p)
+            f.write(str(x3)+"\n")
+        f.close
+    with open('labTxt/file_encode.txt', 'r') as f:
+        lines = f.readlines()
+        f.close
+    with open('labTxt/file_decode.txt', 'w') as f:
+        for i in lines:
+            #step 4
+            x3 = int(i)
+            x4 = fastMulty(x3, Db, p)
+            f.write(str(x4))
+        f.close
 
 
     
