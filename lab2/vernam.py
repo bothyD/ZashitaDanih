@@ -22,19 +22,30 @@ def vernam():
         random_byte = random.randint(0, 255)
         random_byte_str = format(random_byte, '08b')
         sicret_key_bin.append(random_byte_str)
-    res = []
-    for i in range(n):
-        res.append(xor_str(sicret_posl_bin[i], sicret_key_bin[i]))
+    with open('labTxt/file_encode.txt', 'w') as f:
+        res = []
+        for i in range(n):
+            dop_param = xor_str(sicret_posl_bin[i], sicret_key_bin[i])
+            res.append(dop_param)
+            f.write(dop_param+"\n")
+        f.close
+
     print("send: ", sicret_posl_bin)
     print("key: ", sicret_key_bin)
     print("\nshifr = send xor key = ", res)
 
-    sicret_posl_bin2 = []
-    for i in range(n):
-        sicret_posl_bin2.append(xor_str(res[i], sicret_key_bin[i]))
-    print("deshifr = shifr xor key = ", sicret_posl_bin2)
-    for el in sicret_posl_bin2:
-        char = chr(int(el, 2))
-        print(char, end="")
+    with open('labTxt/file_encode.txt', 'r') as f:
+        lines = f.readlines()
+        f.close
+    with open('labTxt/file_decode.txt', 'w') as f:
+        sicret_posl_bin2 = []
+        for i in range(n):
+            sicret_posl_bin2.append(xor_str(lines[i], sicret_key_bin[i]))
+        print("deshifr = shifr xor key = ", sicret_posl_bin2)
+        for el in sicret_posl_bin2:
+            char = chr(int(el, 2))
+            print(char, end="")
+            f.write(char)
+        f.close
 
    

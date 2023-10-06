@@ -10,8 +10,8 @@ from lab2.vernam import vernam
 def main():
     # shamir()
     # el_gamal()
-    RSA()
-    # vernam()
+    # RSA()
+    vernam()
 
 
 if __name__ =="__main__":
