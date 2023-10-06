@@ -4,6 +4,7 @@ from other.evklidGCD import EvklidGCD
 from lab1.gen_evklid import GenEvklid
 from lab2.shamir import generateC_D
 from other.fast_mult import fastMulty
+from other.split_massege import generate_masM_kolIter
 
 def generateC_D(p):
     while True:
@@ -17,15 +18,30 @@ def generateC_D(p):
     return c, d  
 
 def RSA():
-    m=282
+    m=2823546789012
     q = generate_simpleNum()
     p = generate_simpleNum()
     N= q*p
     fu = (p-1)*(q-1)
     d, c = generateC_D(fu)
+
+    mas_m,  kol_iter = generate_masM_kolIter(m,p)
+
     print("p = ",p, ", q = ", q, ", N = ", N, "\nfu = ", fu, ", d = ", d, ", c = ", c)
-    # step 1
-    e = fastMulty(m, d, N)
-    # step 2
-    m2 = fastMulty(e,c,N)
-    print("m = ",m, ", m` = ", m2)
+    with open('labTxt/file_encode.txt', 'w') as f:
+        for i in range(kol_iter):
+            # step 1
+            e = fastMulty(int(mas_m[i]), d, N)
+            f.write(str(e)+"\n")
+            print("e = ", e)
+        f.close
+    with open('labTxt/file_encode.txt', 'r') as f:
+        lines = f.readlines()
+        f.close
+    with open('labTxt/file_decode.txt', 'w') as f:
+        for i in lines:
+            # step 2
+            e = int(i)
+            m2 = fastMulty(e,c,N)
+            f.write(str(m2))
+        f.close

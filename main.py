@@ -9,8 +9,8 @@ from lab2.vernam import vernam
 
 def main():
     # shamir()
-    el_gamal()
-    # RSA()
+    # el_gamal()
+    RSA()
     # vernam()
 
 
