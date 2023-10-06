@@ -1,9 +1,7 @@
-from other.simple_num import generate_simpleNum
 from other.fast_mult import fastMulty
-from lab1.dif_helman import generate_g, generate_q_p, dif_helman
+from lab1.dif_helman import generate_g, generate_q_p
+from other.split_massege import split_string, generate_masM_kolIter
 import random
-
-
 
 def el_gamal():
     m = 228
@@ -11,6 +9,8 @@ def el_gamal():
     q, p  = generate_q_p() 
     g = generate_g(q, p)
     print("p = ", p, ", g = ", g)
+
+
 
     # Ci - закрытое, Di - открытое,
     Cb = random.randint(2, p-1)

@@ -3,6 +3,7 @@ from other.fast_mult import fastMulty
 from other.evklidGCD import EvklidGCD
 from other.simple_num import generate_simpleNum
 from lab1.gen_evklid import GenEvklid
+from other.split_massege import generate_masM_kolIter
 
 def generateC_D(p):
     while True:
@@ -15,29 +16,13 @@ def generateC_D(p):
         c, d = generateC_D(p)
     return c, d  
 
-def split_string(string, n):
-    length = len(string)
-    part_length = length // n
-    parts = []
-    for i in range(n-1):
-        parts.append(string[i*part_length:(i+1)*part_length])
-    parts.append(string[(n-1)*part_length:])
-    return parts
-
 def shamir():
-    m = 22812312101
-    mas_m = []
+    m = 2281201
     p = generate_simpleNum()
     Ca, Da = generateC_D(p)
     Cb, Db = generateC_D(p)    
     print("\tp = ",p, "\nCa = ", Ca, ", Da = ", Da, "\nCb = ", Cb, ", Db = ", Db)
-    kol_iter = 0
-    if m < p:
-        kol_iter = 1
-        mas_m.append(m)
-    else:
-        kol_iter = len(str(m)) // len(str(p))+1
-        mas_m = split_string(str(m), kol_iter)
+    mas_m,  kol_iter = generate_masM_kolIter(m,p)
 
     with open('labTxt/file_encode.txt', 'w') as f:
         for i in range(kol_iter):
