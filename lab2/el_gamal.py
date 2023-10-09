@@ -4,7 +4,8 @@ from other.split_massege import generate_masM_kolIter
 import random
 
 def el_gamal():
-    m = 228111111254545
+    with open('labTxt/messege.txt', 'r') as f:
+        m = int(f.read())
     #генерируем открытое p и g
     q, p  = generate_q_p() 
     g = generate_g(q, p)

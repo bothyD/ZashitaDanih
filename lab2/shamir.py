@@ -17,7 +17,8 @@ def generateC_D(p):
     return c, d  
 
 def shamir():
-    m = 2281201
+    with open('labTxt/messege.txt', 'r') as f:
+        m = int(f.read())
     p = generate_simpleNum()
     Ca, Da = generateC_D(p)
     Cb, Db = generateC_D(p)    

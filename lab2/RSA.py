@@ -18,7 +18,8 @@ def generateC_D(p):
     return c, d  
 
 def RSA():
-    m=2823546789012
+    with open('labTxt/messege.txt', 'r') as f:
+        m = int(f.read())
     q = generate_simpleNum()
     p = generate_simpleNum()
     N= q*p

@@ -13,7 +13,8 @@ def xor_str(str1, str2):
     return res
 
 def vernam():
-    sicret_posl = "HELLO"
+    with open('labTxt/messege.txt', 'r') as f:
+        sicret_posl = f.read()
     n = len(sicret_posl)
     sicret_posl_bin = []
     sicret_key_bin = []
