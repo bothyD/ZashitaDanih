@@ -13,8 +13,15 @@ def main():
     # shamir()
     # el_gamal()
     # RSA()
+<<<<<<< HEAD
     vernam()
 
+=======
+
+    vernam()
+    
+ 
+>>>>>>> 4339582 (edit spli_str)
 
 if __name__ =="__main__":
     main()

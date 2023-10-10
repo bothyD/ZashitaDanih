@@ -18,7 +18,9 @@ def el_gamal():
     print("Cb = ", Cb, ", Db = ", Db)
     k = random.randint(2, p-2)
     r = fastMulty(g,k,p)
+    print(mas_m)
     with open('labTxt/file_encode.txt', 'w') as f:
+
         for i in range(kol_iter):
             #шаг со стороны А
             e =(int(mas_m[i])* fastMulty(Db,k,p))%p
