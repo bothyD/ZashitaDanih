@@ -35,18 +35,12 @@ def vernam():
     print("key: ", sicret_key_bin)
     print("\nshifr = send xor key = ", res)
 
-    with open('labTxt/file_encode.txt', 'r') as f:
-        lines = f.readlines()
-        f.close
-    with open('labTxt/file_decode.txt', 'w') as f:
-        sicret_posl_bin2 = []
-        for i in range(n):
-            sicret_posl_bin2.append(xor_str(lines[i], sicret_key_bin[i]))
-        print("deshifr = shifr xor key = ", sicret_posl_bin2)
-        for el in sicret_posl_bin2:
-            char = chr(int(el, 2))
-            print(char, end="")
-            f.write(char)
-        f.close
+    sicret_posl_bin2 = []
+    for i in range(n):
+        sicret_posl_bin2.append(xor_str(res[i], sicret_key_bin[i]))
+    print("deshifr = shifr xor key = ", sicret_posl_bin2)
+    for el in sicret_posl_bin2:
+        char = chr(int(el, 2))
+        print(char, end="")
 
    

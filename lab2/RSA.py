@@ -13,8 +13,8 @@ def generateC_D(p):
             break
     U = GenEvklid(p,c)
     d = U[2]
-    if (c*d)%(p) != 1 or d<0:
-        c, d = generateC_D(p)
+    if d<0:
+        d+=p
     return c, d  
 
 def RSA():

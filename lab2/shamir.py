@@ -12,13 +12,16 @@ def generateC_D(p):
             break
     U = GenEvklid(p-1,c)
     d = U[2]
-    if (c*d)%(p-1) != 1 or d<0:
-        c, d = generateC_D(p)
+    if  d<0:
+        d+=p-1
     return c, d  
 
 def shamir():
     with open('labTxt/messege.txt', 'r') as f:
         m = int(f.read())
+    m = 2281
+    #конвертируем файл в бинарник 
+    # разбиваем на (p-1), шифруем каждую часть  до 3 шага и дешифруем 
     p = generate_simpleNum()
     Ca, Da = generateC_D(p)
     Cb, Db = generateC_D(p)    
