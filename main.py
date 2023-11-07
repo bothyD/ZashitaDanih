@@ -7,13 +7,13 @@ from lab2.el_gamal import el_gamal
 from lab2.RSA import RSA
 from lab2.vernam import vernam
 
-
 from lab3.RSA_signature import RSA_signature
+from lab3.el_gamal_signature import el_gamal_signature
+
 def main():
-    # shamir()
-    # el_gamal()
-    # RSA()
-    RSA_signature()
+    
+    # RSA_signature()
+    el_gamal_signature()
 
 if __name__ =="__main__":
     main()
