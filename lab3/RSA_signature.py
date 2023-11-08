@@ -4,16 +4,7 @@ from other.fast_mult import fastMulty
 from other.split_massege import generate_masM_kolIter
 from lab2.shamir import generateC_D
 from other.fast_mult import fastMulty
-import ctypes
-
-import hashlib
-from array import array
-
-def sha256_hash(input_string):
-    sha256_hash = hashlib.sha256()
-    sha256_hash.update(input_string.encode('utf-8'))
-    hash_bytes = sha256_hash.digest()
-    return hash_bytes
+from other.sha256_hash import sha256_hash
 
 def proverkaCertif():
     with open('labTxt/messege.txt', 'r') as f:

@@ -1,5 +1,3 @@
-from lab1.gen_evklid import GenEvklid
-
 def binNum(x):
     mas = []
     last_bit = 0
