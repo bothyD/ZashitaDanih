@@ -67,7 +67,6 @@ def makeCertif():
         p = generate_simpleNum()
         q = int((p-1)/2)
     g = find_primitive_root(p)
-    print(p, q, g)
     x = random.randint(2, p-2)
     y = fastMulty(g,x,p)
     ############## 222222222222 ###################

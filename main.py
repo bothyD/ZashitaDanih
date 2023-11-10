@@ -9,11 +9,13 @@ from lab2.vernam import vernam
 
 from lab3.RSA_signature import RSA_signature
 from lab3.el_gamal_signature import el_gamal_signature
+from lab3.gost import gost
 
 def main():
     
     # RSA_signature()
-    el_gamal_signature()
+    # el_gamal_signature()
+    gost()
 
 if __name__ =="__main__":
     main()
