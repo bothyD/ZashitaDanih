@@ -3,7 +3,7 @@ from other.fast_mult import fastMulty
 import secrets
 import random
 import math
-from sympy import isprime
+# from sympy import isprime
 from other.sha256_hash import sha256_hash
 import hashlib
 
