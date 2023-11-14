@@ -5,6 +5,18 @@ from other.coloda import coloda
 from other.shuffleCards import shuffle_cards, random_card, find_key
 import os
 import time
+import logging
+
+def log_function():
+    open('game.log', 'w').close()
+    logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    filename='game.log') 
+    global logger
+    logger = logging.getLogger(__name__)
+
+def consoleClear():
+    os.system('cls')
 
 def inpute_gamers():
     print("Введите имена игроков через пробел(1 < кол-во < 10):")
@@ -23,10 +35,10 @@ def init_players(names):
         player = Player(name)
         player.generateCD(p)
         players.append(player)
-        # time.sleep(2)
+        time.sleep(1)
     print("Игроки зарегестрированы!")
-    # time.sleep(2)
-    os.system('clear')
+    time.sleep(1)
+    consoleClear()
     return players, p
 
 def shifr_card(cards, c, p):
@@ -61,32 +73,51 @@ def decode_card(player, players, p):
     secondCard = fastMulty(playerHand[1], player.d,p)
     playerHand =[firstCard, secondCard]
     player.hand = playerHand
+    logger.info(f'decode cards for: {player.name}')
     
+def table_card_deal(colodaNow, players, p):
+    tableCards = []
+    for i in range(5):
+        card = colodaNow[0]
+        del colodaNow[0]
+        for player in players:
+            card = fastMulty(card, player.d,p)
+        card = find_key(coloda, card)
+        tableCards.append( card)
+    logger.info(f'decode cards for table')
+    return tableCards
 
 def poker(players, p):
     shuffleCards = [x for x in range(2,54)]
     ### first step ###
     for player in players:
         shuffleCards = shuffle_cards(shuffleCards)
+        logger.info(f'{player.name}: shuffled cards')
         shuffleCards = shifr_card(shuffleCards, player.c, p)
-    
+        logger.info(f'{player.name}: encode cards')
     ### second step ###
     deal_cards(players, shuffleCards)  
-    
     ### third step ###
     for player in players:
         decode_card(player, players, p)
-        player.print_hand_player()
-    
-    
-
+        player.print_hand_player()      
+    ### table cards ###
+    tableCards = table_card_deal(shuffleCards, players, p)
+    print("table: ", end="")
+    for i in tableCards:
+        print(i, end=" ")
+    logger.info(f"p = {p}")
+    for player in players:
+        logger.info(player.printCD())
+        
 def main():
+    log_function()
     names = inpute_gamers()
     while names == None:
-        os.system('clear')
+        consoleClear()
         print("Ошибка ввода пользователей, попробуйте ещё раз!")
         names = inpute_gamers()
-    os.system('clear')
+    consoleClear()
     players, p = init_players(names) 
     poker(players, p)
 

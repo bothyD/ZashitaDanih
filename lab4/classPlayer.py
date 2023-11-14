@@ -41,7 +41,9 @@ class Player:
         secondCard = find_key(coloda, hand[1])
         print(f" {self.__name}:\t{firstCard} {secondCard}")
 
-    
+    def printCD(self):
+        return f"{self.__name}:\nC = {self.__c}\tD = {self.__d}"
+
     def generateCD(self, p):
         c = self.c
         d = self.d
