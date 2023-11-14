@@ -16,7 +16,7 @@ def log_function():
     logger = logging.getLogger(__name__)
 
 def consoleClear():
-    os.system('cls')
+    os.system('clear')
 
 def inpute_gamers():
     print("Введите имена игроков через пробел(1 < кол-во < 10):")
