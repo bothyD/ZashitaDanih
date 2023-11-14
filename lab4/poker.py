@@ -106,6 +106,7 @@ def poker(players, p):
     print("table: ", end="")
     for i in tableCards:
         print(i, end=" ")
+    print()
     logger.info(f"p = {p}")
     for player in players:
         logger.info(player.printCD())
