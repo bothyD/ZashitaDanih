@@ -8,6 +8,8 @@ def binNum(x):
     return mas
 
 def fastMulty(a, x, p):
+    if x < 0:
+        x = p + x
     y = 1
     s = a
     masBin = binNum(abs(x))
