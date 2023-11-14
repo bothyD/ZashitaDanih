@@ -1,10 +1,5 @@
 from other.prime import get_prime, is_prime
 from other.gen_evlkid import generateC_D
-import socket
-import pickle
-import random
-import math
-
 
 def RSA():
     q = get_prime(1 << 1023, (1 << 1024) - 1)
