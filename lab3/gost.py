@@ -80,5 +80,5 @@ def proverkaCertif():
 
 
 def gost_sign():
-    makeCertif()
+    # makeCertif()
     proverkaCertif()

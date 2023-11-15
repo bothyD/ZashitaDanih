@@ -3,8 +3,12 @@ from other.prime import get_prime, is_prime
 import socket
 import pickle
 
-def RSA():
+def RSA(massege):
     rnd = get_prime(1 << 511, (1 << 512) - 1)
+    n = rnd | massege
+    # len(n)
+    
+    return n
 
 def main():
     # Создаем сокет
@@ -27,9 +31,10 @@ def main():
             print("error input!")
         except:
             print("error input!")
-    publicData = makeCertif(massage)
-    serialized_data = pickle.dumps(publicData)
-    client_socket.send(serialized_data)
+    n = RSA(massege)
+    # publicData = makeCertif(massage)
+    # serialized_data = pickle.dumps(publicData)
+    # client_socket.send(serialized_data)
     # Закрываем соединение с сервером
     client_socket.close()
 
