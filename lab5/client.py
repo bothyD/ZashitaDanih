@@ -7,7 +7,7 @@ import hashlib
 import sys
 
 class Client:
-    def __init__(self, server: Server, name: str = 'Clint'):
+    def __init__(self, server: Server, name: str = 'Client'):
         self.server = server
         self.name = name
 
@@ -23,18 +23,15 @@ class Client:
         hash_10 = int(hash_16, base=16)
         
         hh = hash_10 * exponentiation_modulo(r, self.server.d, self.server.n) % self.server.n
-
         ss = self.server.get_blank(self.name, hh)
         
         if ss:
             # Вычисление подписи бюллетеня
-            s = ss * inverse(r, self.server.n) % self.server.n
-            
+            s = ss * inverse(r, self.server.n) % self.server.n   
             # Отправка голоса на сервер
             if self.server.set_blank(n, s):
                 print(f"[CLIENT] {self.name}, Ваш бюллетень принят")
             else:
                 print(f"[CLIENT] {self.name}, Ваш бюллетень не прошел проверку на сервере и не был принят")
-            
         else:
             print(f"[CLIENT] {self.name}, Вы уже проголосовали")

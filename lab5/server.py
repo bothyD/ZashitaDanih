@@ -18,7 +18,6 @@ class Server:
         p = q = gen_prime(1 << 1023, (1 << 1024) - 1)
         while p == q:
             q = gen_prime(1 << 1023, (1 << 1024) - 1)
-
         phi = (p - 1) * (q - 1)
 
         self.n = p * q
@@ -33,7 +32,6 @@ class Server:
         logger.info(f' n = {self.n}') 
         logger.info(f' d = {self.d}') 
         logger.info(f' c = {self._c}') 
-
         print(
               '*' * 30,
               "[SERVER] Сервер запущен",
@@ -60,7 +58,6 @@ class Server:
         if hash_10 == exponentiation_modulo(s, self.d, self.n):
             self.votes.append((n, s))
             print(f'[SERVER] Полученный бюллетень успешно прошел проверку и был принят')
-
             return True
         else:
             print(f'[SERVER] Полученный бюллетень не прошел проверку и был отклонён')
