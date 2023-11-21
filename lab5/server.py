@@ -1,47 +1,75 @@
-from other.prime import get_prime, is_prime
-from other.gen_evlkid import generateC_D
-import socket
-import pickle
+from other.prime import *
+from vote import VOTE
 
+import hashlib
+import sys
+import logging
 
-def RSA():
-    q = get_prime(1 << 1023, (1 << 1024) - 1)
-    while True:  # Генерируем p
-        p = get_prime(1 << 1023, (1 << 1024) - 1)
-        if p !=q:
-            break
-    N = p * q
-    fu = (p-1)*(q-1)
-    d, c = generateC_D(fu)
-    return c, d, N
+def log_function():
+    open('vote.log', 'w').close()
+    logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    filename='vote.log') 
+    global logger
+    logger = logging.getLogger(__name__)
 
-def main():
-    C, D, N = RSA()
-    # Создаем сокет
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # Привязываем сокет к хосту и порту
-    host = '127.0.0.1'
-    port = 12345
-    server_socket.bind((host, port))
-    # Прослушиваем входящие соединения
-    server_socket.listen()
-    print(f"Сервер слушает на {host}:{port}")
-    while True:
-        # Принимаем соединение
-        client_socket, client_address = server_socket.accept()
-        print(f"Установлено соединение с {client_address}")
-        # Отправляем ответ клиенту
-        response = "Привет, прими участие в анонимном голосовании!\n Выбери соответствующий номер:\n1 - Да, 2 - Нет, 3 - Воздержался"
-        client_socket.send(response.encode('utf-8'))
+class Server:
+    def __init__(self):
+        p = q = gen_prime(1 << 1023, (1 << 1024) - 1)
+        while p == q:
+            q = gen_prime(1 << 1023, (1 << 1024) - 1)
 
-        # Принимаем данные от клиента
-        data = client_socket.recv(1024)
-        print(f"Получены данные от клиента, ожитайте...")
-        # data = pickle.loads(data)
+        phi = (p - 1) * (q - 1)
 
+        self.n = p * q
+        self.d = gen_mutually_prime(phi)  # Открытый ключ
+        self._c = inverse(self.d, phi)  # Закрытый ключ
+        self._voted = set()
+        self.votes = list()
+        log_function()
+        logger.info(f' p = {p}') 
+        logger.info(f' q = {q}') 
+        logger.info(f' phi = {phi}') 
+        logger.info(f' n = {self.n}') 
+        logger.info(f' d = {self.d}') 
+        logger.info(f' c = {self._c}') 
 
-        # Закрываем соединение с клиентом
-        client_socket.close()
+        print(
+              '*' * 30,
+              "[SERVER] Сервер запущен",
+              sep='\n'
+              )
 
-if __name__ =="__main__":
-    main()    
+    def get_blank(self, name: str, hh: int) -> int:
+        print(f"[SERVER] Пришел запрос на получение бюллетеня от {name}")
+        if name in self._voted:
+            print(f"[SERVER] Пользователь {name} уже проголосовал")
+            return None
+        else:
+            print(f"[SERVER] Пользователю {name} отправлен бюллетень")
+            self._voted.add(name)
+            return exponentiation_modulo(hh, self._c, self.n)
+
+    def set_blank(self, n: int, s: int) -> bool:
+        print(f"[SERVER] Получен бюллетень")
+        
+        hash =  hashlib.sha3_512(n.to_bytes(math.ceil(n.bit_length() / 8), byteorder=sys.byteorder))
+        hash_16 = hash.hexdigest()
+        hash_10 = int(hash_16, base=16)
+        
+        if hash_10 == exponentiation_modulo(s, self.d, self.n):
+            self.votes.append((n, s))
+            print(f'[SERVER] Полученный бюллетень успешно прошел проверку и был принят')
+
+            return True
+        else:
+            print(f'[SERVER] Полученный бюллетень не прошел проверку и был отклонён')
+            print(f"\t{hash_10 = }", f"\t{exponentiation_modulo(s, self.d, self.n) = }", sep='\n')
+            return False
+        
+    def voting_results(self):
+        votes = dict([(i, 0) for i in VOTE])
+        for n, s in self.votes:
+            votes[VOTE(n & (~((~0) << len(VOTE) - 1)))] += 1 
+        print("[SERVER] Текущие итоги голосования:")
+        print(*(f"\t{key.name} = {value}" for key, value in votes.items()), sep='\n')

@@ -1,42 +1,40 @@
-from other.gost import makeCertif
-from other.prime import get_prime, is_prime
-import socket
-import pickle
+from vote import VOTE
+from server import Server
 
-def RSA(massege):
-    rnd = get_prime(1 << 511, (1 << 512) - 1)
-    n = rnd | massege
-    # len(n)
-    
-    return n
+from other.prime import *
 
-def main():
-    # Создаем сокет
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # Подключаемся к серверу
-    host = '127.0.0.1'
-    port = 12345
-    client_socket.connect((host, port))
-    # Получаем ответ от сервера
-    response = client_socket.recv(1024)
-    massege = response.decode('utf-8')
-    print(f"Получен ответ от сервера: {massege}")
-    # Отправляем данные серверу
-    while True:
-        massage = input()
-        try:
-            massege = int(massage)
-            if massege == 1 or massege == 2 or massege == 3:
-                break
-            print("error input!")
-        except:
-            print("error input!")
-    n = RSA(massege)
-    # publicData = makeCertif(massage)
-    # serialized_data = pickle.dumps(publicData)
-    # client_socket.send(serialized_data)
-    # Закрываем соединение с сервером
-    client_socket.close()
+import hashlib
+import sys
 
-if __name__ =="__main__":
-    main()  
+class Client:
+    def __init__(self, server: Server, name: str = 'Clint'):
+        self.server = server
+        self.name = name
+
+    def vote(self, vote: VOTE):
+        # Хэширование голоса и запрос бюллетеня
+        rnd = gen_prime(1 << 511, (1 << 512) - 1)
+        n = rnd << 512 | vote.value
+        
+        r = gen_mutually_prime(self.server.n)
+        
+        hash =  hashlib.sha3_512(n.to_bytes(math.ceil(n.bit_length() / 8), byteorder=sys.byteorder))
+        hash_16 = hash.hexdigest()
+        hash_10 = int(hash_16, base=16)
+        
+        hh = hash_10 * exponentiation_modulo(r, self.server.d, self.server.n) % self.server.n
+
+        ss = self.server.get_blank(self.name, hh)
+        
+        if ss:
+            # Вычисление подписи бюллетеня
+            s = ss * inverse(r, self.server.n) % self.server.n
+            
+            # Отправка голоса на сервер
+            if self.server.set_blank(n, s):
+                print(f"[CLIENT] {self.name}, Ваш бюллетень принят")
+            else:
+                print(f"[CLIENT] {self.name}, Ваш бюллетень не прошел проверку на сервере и не был принят")
+            
+        else:
+            print(f"[CLIENT] {self.name}, Вы уже проголосовали")

@@ -1,13 +1,9 @@
-import random
+def GenEvklid(a: int, b: int) -> list[int, int, int]:
 
-def EvklidGCD(a,b):
-    while b !=0:
-        r = a%b 
-        a = b
-        b = r
-    return a
-
-def GenEvklid(a, b):
+    if a <= 0 or b <= 0:
+        raise ValueError("Числа могут быть только натуральными")
+    if a > b:
+        a, b = b, a
     u = [a, 1, 0]
     v = [b, 0, 1]
     while v[0] != 0:
@@ -16,13 +12,9 @@ def GenEvklid(a, b):
         u, v = v, t
     return u
 
-def generateC_D(p):
-    while True:
-        c = random.randint(10**4, 10**5)
-        if EvklidGCD(p,c) == 1:
-            break
-    U = GenEvklid(p,c)
-    d = U[2]
-    if (c*d)%(p) != 1 or d<0:
-        c, d = generateC_D(p)
-    return c, d 
+def inverse(n, p):
+    gcd, inv, _ = GenEvklid(n, p)
+    assert gcd == 1
+    if inv < 0 :
+        inv += p
+    return inv
