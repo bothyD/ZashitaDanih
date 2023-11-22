@@ -36,12 +36,12 @@ def makeCertif():
         
     x = random.randint(1, q)
     y = fastMulty(a, x, p)
-
-
+    message ='5'
+    m = message.encode('utf-8')
     h = hashlib.md5(m).hexdigest()
     print(f'GOST md5 hash: {h}')
     h = int(h, 16)
-
+    print(h)
     k = random.randint(1, q)
     r = fastMulty(a, k, p) % q
     s = (k * h + x * r) % q
@@ -80,5 +80,5 @@ def proverkaCertif():
 
 
 def gost_sign():
-    # makeCertif()
+    makeCertif()
     proverkaCertif()

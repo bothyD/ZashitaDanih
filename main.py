@@ -12,10 +12,10 @@ from lab3.el_gamal_signature import el_gamal_signature
 from lab3.gost import gost_sign
 
 def main():
-    
+    bgs()
     # RSA_signature()
     # el_gamal_signature()
-    gost_sign()
+    # gost_sign()
 
 
 if __name__ =="__main__":

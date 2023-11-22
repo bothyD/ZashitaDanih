@@ -93,8 +93,10 @@ def poker(players, p):
     for player in players:
         shuffleCards = shuffle_cards(shuffleCards)
         logger.info(f'{player.name}: shuffled cards')
+        logger.info(f"shufle = {shuffleCards}")
         shuffleCards = shifr_card(shuffleCards, player.c, p)
         logger.info(f'{player.name}: encode cards')
+        logger.info(f"shifr = {shuffleCards}")
     ### second step ###
     deal_cards(players, shuffleCards)  
     ### third step ###
