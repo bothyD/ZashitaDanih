@@ -3,6 +3,16 @@ from libs import *
 import socket
 import signal
 
+import logging
+
+def log_function():
+    open('vote.log', 'w').close()
+    logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    filename='vote.log') 
+    global logger
+    logger = logging.getLogger(__name__)
+
 
 class Server:
     def __init__(self, host: str = "localhost", port: int = 3000):
@@ -16,8 +26,11 @@ class Server:
 
         self.n = p * q
         
-        print(f"\t{p = }", f"\t{q = }", f"\t{self.n = }", '*' * 30, sep='\n')
-        
+        log_function()
+        logger.info(f' p = {p}') 
+        logger.info(f' q = {q}')  
+        logger.info(f' n = {self.n}') 
+
         try:
             with open("registered_users.json", "r") as f:
                 self._registered_users = json.load(f)
